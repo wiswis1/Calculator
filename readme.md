@@ -1,0 +1,1 @@
+This is the final project of theodinproject basics and will showcase my knowledge of html, css and javascript. Enjoy!
