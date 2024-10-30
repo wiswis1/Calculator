@@ -1,6 +1,6 @@
 const keys = document.querySelectorAll(".key");
 const display_input = document.querySelector(".display .input");
-const display_ouput = document.querySelector(".display .output");
+const display_output = document.querySelector(".display .output");
 
 var onDecimals = false;
 
@@ -10,128 +10,121 @@ let secondNumber;
 let firstNumArray = [];
 let secondNumArray = [];
 
-
 let step = 0;
 let operator;
 
 function add(a, b) {
-  return a+b;
+  return a + b;
 }
 
-function subtract(a,b) {
-  return a-b;
+function subtract(a, b) {
+  return a - b;
 }
 
-function multiply(a,b) {
-  return a*b;
+function multiply(a, b) {
+  return a * b;
 }
 
-function divide(a,b) {
-  if(b == 0){
+function divide(a, b) {
+  if (b == 0) {
     console.log("undefined");
-  }else{
-    return a/b;
+  } else {
+    return a / b;
   }
 }
 
-function percentage(){
-
-}
+function percentage() {}
 
 function operate(a, operator, b) {
   let result;
-  switch(operator){
-    case "+": 
-      result = add(a,b);
+  switch (operator) {
+    case "+":
+      result = add(a, b);
       break;
     case "-":
-      result = subtract(a,b);
-      break;    
+      result = subtract(a, b);
+      break;
     case "*":
-      result = multiply(a,b);
+      result = multiply(a, b);
       break;
     case "/":
-      result = divide(a,b);
+      result = divide(a, b);
       break;
-
-  
   }
-  display_ouput.innerHTML = result;
+  display_output.innerHTML = result;
 }
 
+function updateDisplay() {
+  if (step == 0 || step == 1) {
+    display_input.innerHTML = firstNumber;
+  }
+  if (step == 2) {
+    display_input.innerHTML = `${firstNumber}${operator}${secondNumber}`;
+  }
+}
 
-let input ="";
+function clear() {
+  step = 0;
+  firstNumber = 0;
+  secondNumber = 0;
+  firstNumArray = [];
+  secondNumArray = [];
+}
+
+let input = "";
 
 for (let key of keys) {
   const value = key.dataset.key;
 
   key.addEventListener("click", () => {
     if (value == "clear") {
-      step = 0;
-      firstNumber = 0;
-      secondNumber = 0;
-      firstNumArray = [];
-      secondNumArray = [];
-
       display_input.innerHTML = "";
-      display_ouput.innerHTML = "";
+      display_output.innerHTML = "";
+      clear();
     } else if (value == "backspace") {
-      if(step == 0 || step == 1){
+      if (step == 0 || step == 1) {
         firstNumArray.pop();
         firstNumber = Number(firstNumArray.join(""));
-        console.log(firstNumber)
-      }else if (step == 2){
+      } else if (step == 2) {
         secondNumArray.pop();
         secondNumber = Number(secondNumArray.join(""));
-        console.log(secondNumber)
       }
-      display_input.innerHTML = input;
+      updateDisplay();
+    } else if (value == "%") {
+      if (step == 0 || step == 1) {
+        firstNumber = firstNumber / 100;
+      }
+      if (step == 2) {
+        secondNumber = secondNumber / 100;
+      }
+      updateDisplay();
     } else if (value == "=") {
       operate(firstNumber, operator, secondNumber);
-    }else if( value == "+" ||  value == "-" || value == "*" || value == "/" ){
+      clear();
+    } else if (value == "+" || value == "-" || value == "*" || value == "/") {
       operator = value;
+      display_input.innerHTML = `${firstNumber}${operator}`;
       step = 2;
-    }
-      // else if (value == "brackets") {
-    //   if (
-    //     input.indexOf("(") == -1 ||
-    //     (input.indexOf("(") != -1 &&
-    //       input.indexOf(")") != -1 &&
-    //       input.lastIndexOf("(") < input.lastIndexOf(")"))
-    //   ) {
-    //     input += "(";
-    //   } else if (
-    //     (input.indexOf("(") != -1 && input.indexOf(")") == -1) ||
-    //     (input.indexOf("(") != -1 &&
-    //       input.indexOf(")") != -1 &&
-    //       input.lastIndexOf("(") > input.lastIndexOf(")"))
-    //   ) {
-    //     input += ")";
-    //   }
-
-    //   display_input.innerHTML = input;}
-     else {
-      if(step == 0 || step == 1){
-        if (firstNumArray.indexOf(".") > -1 && value == "."){
-          console.log("error multiple decimals")
-        }else{
+    } else {
+      if (step == 0 || step == 1) {
+        if (firstNumArray.indexOf(".") > -1 && value == ".") {
+          console.log("error multiple decimals");
+        } else {
           firstNumArray.push(value);
           firstNumber = Number(firstNumArray.join(""));
-        }
-        step = 1
+          console.log(firstNumArray);
 
-        console.log(firstNumber) 
-      }else if(step == 2){
-        if (secondNumArray.indexOf(".") > -1 && value == "."){
-          console.log("error multiple decimals")
-        }else{
+          step = 1;
+        }
+      } else if (step == 2) {
+        if (secondNumArray.indexOf(".") > -1 && value == ".") {
+          console.log("error multiple decimals");
+        } else {
           secondNumArray.push(value);
           secondNumber = Number(secondNumArray.join(""));
         }
-        console.log(secondNumber);
       }
-      // display_input.innerHTML = input;
-      // console.log(input);
+      updateDisplay();
     }
   });
 }
