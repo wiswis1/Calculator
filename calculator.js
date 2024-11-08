@@ -37,26 +37,41 @@ function percentage() {}
 
 function operate(a, operator, b) {
   let result;
-  switch (operator) {
-    case "+":
-      result = add(a, b);
-      break;
-    case "-":
-      result = subtract(a, b);
-      break;
-    case "*":
-      result = multiply(a, b);
-      break;
-    case "/":
-      result = divide(a, b);
-      break;
+  if(b == NaN){
+    result = a;
+  }else{
+    switch (operator) {
+      case undefined:
+        result = a;
+        break;
+      case "+":
+        result = add(a, b);
+        console.log(result)
+        break;
+      case "-":
+        result = subtract(a, b);
+        break;
+      case "*":
+        result = multiply(a, b);
+        break;
+      case "/":
+        result = divide(a, b);
+        break;
+    }
   }
+  console.log(result)
   display_output.innerHTML = result;
 }
 
 function updateDisplay() {
   if (step == 0 || step == 1) {
-    display_input.innerHTML = firstNumber;
+    let input = "";
+    for(let i = 0; i<firstNumArray.length;i++){
+      if(firstNumArray[0]=="." && i == 0)
+        firstNumArray.unshift("0");
+      input+=firstNumArray[i];
+    }
+    display_input.innerHTML = input;
   }
   if (step == 2) {
     display_input.innerHTML = `${firstNumber}${operator}${secondNumber}`;
@@ -100,6 +115,7 @@ for (let key of keys) {
       updateDisplay();
     } else if (value == "=") {
       operate(firstNumber, operator, secondNumber);
+      console.log(operate(firstNumber, operator, secondNumber));
       clear();
     } else if (value == "+" || value == "-" || value == "*" || value == "/") {
       operator = value;
@@ -112,8 +128,6 @@ for (let key of keys) {
         } else {
           firstNumArray.push(value);
           firstNumber = Number(firstNumArray.join(""));
-          console.log(firstNumArray);
-
           step = 1;
         }
       } else if (step == 2) {
