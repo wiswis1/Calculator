@@ -26,7 +26,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  if (b == 0) {
+  if (b === 0) {
     console.log("undefined");
   } else {
     return a / b;
@@ -74,7 +74,13 @@ function updateDisplay() {
     display_input.innerHTML = input;
   }
   if (step == 2) {
-    display_input.innerHTML = `${firstNumber}${operator}${secondNumber}`;
+    let input = "";
+    for(let i = 0; i<secondNumArray.length;i++){
+      if(secondNumArray[0]=="." && i == 0)
+        secondNumArray.unshift("0");
+      input+=secondNumArray[i];
+    }
+    display_input.innerHTML = `${firstNumber}${operator}`+input;
   }
 }
 
@@ -107,6 +113,7 @@ for (let key of keys) {
       updateDisplay();
     } else if (value == "%") {
       if (step == 0 || step == 1) {
+        //make it so it is changed inside the firstNumber array for calculation purposes
         firstNumber = firstNumber / 100;
       }
       if (step == 2) {
