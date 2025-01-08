@@ -1,6 +1,17 @@
 const keys = document.querySelectorAll(".key");
 const display_input = document.querySelector(".display .input");
+
+
+const display_firstNum = document.querySelector(".input .firstNumber");
+const display_operator = document.querySelector(".input .operator");
+const display_secondNum = document.querySelector(".input .secondNumber");
+
+
+
+
 const display_output = document.querySelector(".display .output");
+
+
 
 var onDecimals = false;
 
@@ -46,7 +57,6 @@ function operate(a, operator, b) {
         break;
       case "+":
         result = add(a, b);
-        console.log(result)
         break;
       case "-":
         result = subtract(a, b);
@@ -71,7 +81,6 @@ function updateDisplay() {
         firstNumArray.unshift("0");
       input+=firstNumArray[i];
     }
-    display_input.innerHTML = input;
   }
   if (step == 2) {
     let input = "";
@@ -80,7 +89,6 @@ function updateDisplay() {
         secondNumArray.unshift("0");
       input+=secondNumArray[i];
     }
-    display_input.innerHTML = `${firstNumber}${operator}`+input;
   }
 }
 
@@ -109,6 +117,7 @@ for (let key of keys) {
       } else if (step == 2) {
         secondNumArray.pop();
         secondNumber = Number(secondNumArray.join(""));
+        console.log(secondNumber);
       }
       updateDisplay();
     } else if (value == "%") {
@@ -120,21 +129,28 @@ for (let key of keys) {
         secondNumber = secondNumber / 100;
       }
       updateDisplay();
-    } else if (value == "=") {
+    } 
+    
+    else if (value == "=") {
       operate(firstNumber, operator, secondNumber);
-      console.log(operate(firstNumber, operator, secondNumber));
       clear();
-    } else if (value == "+" || value == "-" || value == "*" || value == "/") {
+    } 
+    
+    else if (value == "+" || value == "-" || value == "*" || value == "/") {
       operator = value;
-      display_input.innerHTML = `${firstNumber}${operator}`;
+      display_operator.innerHTML = value;
       step = 2;
-    } else {
+    } 
+    
+    
+    else {
       if (step == 0 || step == 1) {
         if (firstNumArray.indexOf(".") > -1 && value == ".") {
           console.log("error multiple decimals");
         } else {
           firstNumArray.push(value);
           firstNumber = Number(firstNumArray.join(""));
+          display_firstNum.innerHTML = firstNumber;
           step = 1;
         }
       } else if (step == 2) {
@@ -143,6 +159,8 @@ for (let key of keys) {
         } else {
           secondNumArray.push(value);
           secondNumber = Number(secondNumArray.join(""));
+          display_secondNum.innerHTML = secondNumber;
+          console.log(secondNumber)
         }
       }
       updateDisplay();
