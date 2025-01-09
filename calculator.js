@@ -17,6 +17,8 @@ var onDecimals = false;
 
 let firstNumber;
 let secondNumber;
+let input = "";
+
 
 let firstNumArray = [];
 let secondNumArray = [];
@@ -48,7 +50,7 @@ function percentage() {}
 
 function operate(a, operator, b) {
   let result;
-  if(b == NaN){
+  if(!b){
     result = a;
   }else{
     switch (operator) {
@@ -69,48 +71,35 @@ function operate(a, operator, b) {
         break;
     }
   }
-  console.log(result)
   display_output.innerHTML = result;
 }
 
-function updateDisplay() {
-  if (step == 0 || step == 1) {
-    let input = "";
-    for(let i = 0; i<firstNumArray.length;i++){
-      if(firstNumArray[0]=="." && i == 0)
-        firstNumArray.unshift("0");
-      input+=firstNumArray[i];
-    }
-  }
-  if (step == 2) {
-    let input = "";
-    for(let i = 0; i<secondNumArray.length;i++){
-      if(secondNumArray[0]=="." && i == 0)
-        secondNumArray.unshift("0");
-      input+=secondNumArray[i];
-    }
-  }
-}
 
-function clear() {
+function reset() {
   step = 0;
+  display_firstNum.innerHTML = "";
+  display_operator.innerHTML = "";
+  display_secondNum.innerHTML = "";
   firstNumber = 0;
   secondNumber = 0;
+  operator = "";
   firstNumArray = [];
   secondNumArray = [];
 }
 
-let input = "";
 
 for (let key of keys) {
   const value = key.dataset.key;
 
   key.addEventListener("click", () => {
     if (value == "clear") {
-      display_input.innerHTML = "";
       display_output.innerHTML = "";
-      clear();
-    } else if (value == "backspace") {
+      reset();
+
+    console.log("has reset");
+    } 
+    
+    else if (value == "backspace") {
       if (step == 0 || step == 1) {
         firstNumArray.pop();
         firstNumber = Number(firstNumArray.join(""));
@@ -119,21 +108,21 @@ for (let key of keys) {
         secondNumber = Number(secondNumArray.join(""));
         console.log(secondNumber);
       }
-      updateDisplay();
-    } else if (value == "%") {
+
+    } 
+    
+    else if (value == "%") {
       if (step == 0 || step == 1) {
-        //make it so it is changed inside the firstNumber array for calculation purposes
         firstNumber = firstNumber / 100;
       }
       if (step == 2) {
         secondNumber = secondNumber / 100;
       }
-      updateDisplay();
     } 
     
     else if (value == "=") {
       operate(firstNumber, operator, secondNumber);
-      clear();
+      reset();
     } 
     
     else if (value == "+" || value == "-" || value == "*" || value == "/") {
@@ -141,7 +130,11 @@ for (let key of keys) {
       display_operator.innerHTML = value;
       step = 2;
     } 
-    
+
+    else if (value == "sign"){
+
+    }
+  
     
     else {
       if (step == 0 || step == 1) {
@@ -160,7 +153,6 @@ for (let key of keys) {
           secondNumArray.push(value);
           secondNumber = Number(secondNumArray.join(""));
           display_secondNum.innerHTML = secondNumber;
-          console.log(secondNumber)
         }
       }
       updateDisplay();
