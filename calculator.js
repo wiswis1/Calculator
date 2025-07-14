@@ -51,7 +51,7 @@ function percentage() {}
 function operate(a, operator, b) {
   let result;
   if(!b){
-    result = a;
+    result = a; 
   }else{
     switch (operator) {
       case undefined:
@@ -70,6 +70,10 @@ function operate(a, operator, b) {
         result = divide(a, b);
         break;
     }
+  }
+
+  if(typeof result === "number" && !Number.isInteger(result)){
+    result = parseFloat(result.toFixed(6));
   }
   display_output.innerHTML = result;
 }
@@ -142,7 +146,9 @@ for (let key of keys) {
           console.log("error multiple decimals");
         } else {
           firstNumArray.push(value);
-          firstNumber = Number(firstNumArray.join(""));
+          let numStr = firstNumArray.join("");
+          if (numStr.startsWith(".")) numStr = "0" + numStr; // Handle leading decimal
+          firstNumber = Number(numStr); 
           display_firstNum.innerHTML = firstNumber;
           step = 1;
         }
@@ -151,7 +157,9 @@ for (let key of keys) {
           console.log("error multiple decimals");
         } else {
           secondNumArray.push(value);
-          secondNumber = Number(secondNumArray.join(""));
+          let numStr = secondNumArray.join("");
+          if (numStr.startsWith(".")) numStr = "0" + numStr; // Handle leading decimal
+          secondNumber = Number(numStr);
           display_secondNum.innerHTML = secondNumber;
         }
       }
