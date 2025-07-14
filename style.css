@@ -5,6 +5,10 @@
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+body{
+    background: #9ace696b; /* Change to any color you like */
+}
+
 .app{
     display: flex;
     justify-content: center;
