@@ -118,9 +118,13 @@ for (let key of keys) {
     else if (value == "%") {
       if (step == 0 || step == 1) {
         firstNumber = firstNumber / 100;
+        firstNumArray = firstNumber.toString().split("");
+        display_firstNum.innerHTML = firstNumber; 
       }
       if (step == 2) {
         secondNumber = secondNumber / 100;
+        secondNumArray = secondNumber.toString().split("");
+        display_secondNum.innerHTML = secondNumber; 
       }
     } 
     
